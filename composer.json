@@ -1,0 +1,22 @@
+{
+  "name": "ben/ben-cms",
+  "description": "A simplate PHP article System.",
+  "type": "cms",
+  "keywords": ["php","cms"],
+  "require": {
+    "php": ">=5.6.0",
+    "filp/whoops": "*",
+    "smarty/smarty": "~3.1",
+    "symfony/var-dumper": "*",
+    "overtrue/pinyin": "*",
+    "katzgrau/klogger": "dev-master",
+    "jasongrimes/paginator":"~1.0",
+    "predis/predis":"*"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}
