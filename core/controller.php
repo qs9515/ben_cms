@@ -93,19 +93,18 @@ window.location.href='$url';
 	 * @param string $target 默认跳转右边窗口，可定义跳转到顶窗口等
 	 * @param string $return 返回的连接地址，默认使用javascript的返回
 	 */
-	public function show_message($msg='',$urls=array(),$status=1,$auto=false,$template_dir='',$target='',$return='javascript:history.go(-1)')
-	{
-		$template_dir=is_dir($template_dir)?$template_dir:__SITEROOT.'application/protals/views/scripts/message/';
-		$this->view->status=$status;
-		$this->view->msg=$msg;
-		$this->view->urls=$urls;
-		$this->view->auto=$auto;
-		$this->view->base_path=__BASEPATH;
-		$this->view->setTemplateDir($template_dir);
-		$this->view->target=$target;
-		$this->view->return=$return;
-		$this->view->display('message.html');
-		exit();
-	}
+    public function show_message($msg='',$urls=array(),$status=1,$auto=false,$template_dir='',$target='',$return='javascript:history.go(-1)')
+    {
+        $template_dir=is_dir($template_dir)?$template_dir:__SITEROOT.'/views/admin/comm/';
+        $this->view->assign('status',$status);
+        $this->view->assign('msg',$msg);
+        $this->view->assign('urls',$urls);
+        $this->view->assign('auto',$auto);
+        $this->view->assign('target',$target);
+        $this->view->assign('return',$return);
+        $this->view->setTemplateDir($template_dir);
+        $this->view->display('message.html');
+        exit();
+    }
 
 }
