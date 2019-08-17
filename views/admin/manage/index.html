@@ -1,0 +1,56 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <!--{include file="../comm/header_bar.html"}-->
+    <!--{include file="../comm/nav.html"}-->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" id="main-content">
+
+    </div>
+    <!-- /.content-wrapper -->
+    <!--{include file="../comm/copyright.html"}-->
+    <!-- Control Sidebar -->
+    <!--{include file="../comm/sidebar.html"}-->
+
+</div>
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>
+<!-- 自定义公共JS函数 -->
+<script src="<!--{$base_path}-->static/js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: '<!--{$base_path}-->admin/index/main/',
+            data: '',
+            beforeSend:function()
+            {
+                var index = layer.load(0, {shade: false});
+            },
+            success: function(data){
+                layer.closeAll('loading');
+                $("#main-content").html(data);
+            },
+            error:function (obj,data) {
+                layer.closeAll('loading');
+                var res_txt=obj.responseJSON.error.message;
+                if(!res_txt)
+                {
+                    res_txt='系统发生错误！';
+                }
+                var error_msg='<div class="tpl-content-scope">' +
+                    '                <div class="note note-info">' +
+                    '                    <h3>信息提示' +
+                    '                        <span class="close" data-close="note"></span>' +
+                    '                    </h3>\n' +
+                    '                    <p><span class="label label-danger">提示:</span> '+res_txt +
+                    '                    </p>' +
+                    '                </div>' +
+                    '            </div>';
+                $("#main-content").html(error_msg);
+            }
+        });
+    })
+</script>

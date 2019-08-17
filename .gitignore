@@ -1,3 +1,5 @@
 /_cache
 /.idea
 /vendor
+vendor
+/core/db/models

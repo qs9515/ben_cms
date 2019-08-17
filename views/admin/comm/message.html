@@ -1,0 +1,41 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue sidebar-form">
+<!-- Site wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper full-wrapper">
+    <!-- Main content -->
+    <section class="content full-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bullhorn"></i>
+
+                        <h3 class="box-title">信息提示</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="callout callout-info">
+                            <p><!--{$msg}--></p>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <!--{foreach $urls as $k=>$v}-->
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="<!--{$k}-->" href="<!--{$v}-->" target="<!--{$target}-->" style="margin-right: 8px"><!--{$k}--></a>
+                        <!--{/foreach}-->
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="返回" href="<!--{$return}-->">返回</a>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>

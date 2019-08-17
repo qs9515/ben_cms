@@ -16,6 +16,12 @@
 $sys_config=array();
 //是否开启数据库调试模式
 $sys_config['db_debug']=false;
+//定义session唯一索引值
+$sys_config['session_id']=md5('benCmsSeoSystem');
+//定义软件版本
+$sys_config['version']='1.0.'.date('Ymd');
+//定义厂商名称
+$sys_config['company_name']='我好笨';
 //定义日志存储路径
 $sys_config['log_file']=__SITEROOT.'/_cache/logs';
 //定义缓存模式

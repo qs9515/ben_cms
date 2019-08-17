@@ -1,0 +1,13 @@
+.page-header{
+    margin: 2px 0px 10px 2px;
+}
+.content-header{padding: 15px 15px 15px 15px;}
+.invoice{margin: 10px 10px}
+.search-more{line-height: 32px;margin-bottom: 6px}
+.full-wrapper{
+    margin-left: 2px;
+}
+.full-content{padding: 4px;margin: 0px}
+.check_label{
+    cursor: pointer;padding-left: 6px;
+}

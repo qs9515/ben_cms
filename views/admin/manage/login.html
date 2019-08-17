@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><!--{$system_name}--> | 用户登录</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="<!--{$base_path}-->static/js/plugin/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<!--{$base_path}-->static/js/plugin/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="<!--{$base_path}-->static/js/plugin/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<!--{$base_path}-->static/css/AdminLTE.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b><!--{$system_name}--></b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">用户登录</p>
+
+        <form id="login" action="" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" name="phone" id="phone" value="<!--{$phone}-->" class="form-control" placeholder="账号">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" id="password" class="form-control" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" name="code" id="code" class="form-control" placeholder="验证码" style="background-image:url('<!--{$base_path}-->admin/login/code/');background-position: right;background-repeat:no-repeat;">
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck" style="padding-left: 22px">
+                        <label>
+                            <input type="checkbox"> 记住账号
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery 3 -->
+<script src="<!--{$base_path}-->static/js/plugin/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="<!--{$base_path}-->static/js/plugin/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<!--{$base_path}-->static/js/plugin/layer/layer.js"></script>
+<script>
+    $("#login").submit(function () {
+        if($("#phone").val()=='')
+        {
+            layer.msg('请输入用户名！');
+            $("#phone").focus();
+            return false;
+        }
+        if($("#password").val()=='')
+        {
+            layer.msg('请输入登录密码！');
+            $("#password").focus();
+            return false;
+        }
+        if($("#code").val()=='')
+        {
+            layer.msg('请输入验证码！');
+            $("#code").focus();
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "<!--{$base_path}-->admin/login/save/",
+            data: $("#login").serialize(),
+            dataType:"json",
+            success: function(msg){
+                if(msg.code==200)
+                {
+                    layer.msg("登录成功！");
+                    setTimeout(function () {
+                        window.location.href="<!--{$base_path}-->admin/index/index/";
+                    },300)
+                }
+                else
+                {
+                    layer.msg(msg.message);
+                    //重置验证码
+                    $("#code").css('background-image',"url('<!--{$base_path}-->admin/login/code/"+Math.random()+"')");
+                    return false;
+                }
+            },
+            error:function (msg) {
+                var response_json=msg.responseJSON;
+                if(response_json.error.message)
+                {
+                    layer.msg(response_json.error.message);
+                }
+                else
+                {
+                    layer.msg('系统发生错误，请稍后重试！');
+                }
+                $("#code").css('background-image',"url('<!--{$base_path}-->admin/login/code/"+Math.random()+"')");
+                return false;
+            }
+        });
+        return false;
+    });
+</script>
+</body>
+</html>

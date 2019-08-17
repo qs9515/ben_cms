@@ -14,11 +14,11 @@
  * $LastChangedBy$
  */
 //配置mysql测试
-$databaseConfig['db'][1]['charset'] = 'UTF8';
-$databaseConfig['db'][1]['engine'] = 'mysql';
-$databaseConfig['db'][1]['connectType'] = 1;
-$databaseConfig['db'][1]['host'] = 'localhost';
-$databaseConfig['db'][1]['database'] = 'bencms';
-$databaseConfig['db'][1]['user'] = 'root';
-$databaseConfig['db'][1]['password'] = '123456';
+$databaseConfig['db']['m']['charset'] = 'UTF8';
+$databaseConfig['db']['m']['engine'] = 'mysql';
+$databaseConfig['db']['m']['connectType'] = 1;
+$databaseConfig['db']['m']['host'] = 'localhost';
+$databaseConfig['db']['m']['database'] = 'ben_cms';
+$databaseConfig['db']['m']['user'] = 'root';
+$databaseConfig['db']['m']['password'] = '123456';
 return $databaseConfig;
