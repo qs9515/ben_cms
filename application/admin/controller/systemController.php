@@ -92,6 +92,12 @@ class systemController extends baseController
         $data=parent::_delete("ben_login_logs",$uuid);
         json($data,$data['code']);
     }
+
+    /**
+     * 方法名称:loginLogDetailAction
+     * 说明: 查看日志详细
+     * @throws \SmartyException
+     */
     public function loginLogDetailAction()
     {
         $uuid=$this->_request->getParam('ids');
@@ -103,6 +109,58 @@ class systemController extends baseController
                 $conf=systemModel::commGetDetailById("ben_login_logs",$uuid);
                 $this->view->assign('data',$conf);
                 $this->view->display('admin/system/loginLog_detail.html');
+            }
+            else
+            {
+                $this->show_message("记录不存在！");
+            }
+        }
+        else
+        {
+            $this->show_message("参数错误！");
+        }
+    }
+
+    /**
+     * 方法名称:eventLogAction
+     * 说明:前台访问日志列表
+     */
+    public function eventLogAction()
+    {
+        $search=array();
+        $search['keyword']=$this->_request->getParam('keyword');
+        $data=parent::_list("ben_views_logs",BASE_PATH.'admin/system/eventLog/page/(:num)/',$search,"updated desc",array('source','ua'));
+        $this->view->assign('data',$data);
+        $this->view->display('admin/system/eventLog_list.html');
+    }
+
+    /**
+     * 方法名称:eventLogDeleteAction
+     * 说明: 删除访问日志
+     */
+    public function eventLogDeleteAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $data=parent::_delete("ben_views_logs",$uuid);
+        json($data,$data['code']);
+    }
+
+    /**
+     * 方法名称:eventLogDetailAction
+     * 说明: 查看日志详细
+     * @throws \SmartyException
+     */
+    public function eventLogDetailAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $uuid=is_array($uuid)?(isset($uuid[0])?$uuid[0]:''):$uuid;
+        if($uuid)
+        {
+            if(systemModel::commCount("ben_views_logs",array("id"=>$uuid)))
+            {
+                $conf=systemModel::commGetDetailById("ben_views_logs",$uuid);
+                $this->view->assign('data',$conf);
+                $this->view->display('admin/system/eventLog_detail.html');
             }
             else
             {
