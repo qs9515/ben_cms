@@ -14,6 +14,8 @@
  * $LastChangedBy$
  */
 namespace application\admin\validate;
+use application\admin\models\baseModel;
+use core\BaseException;
 use library\exception\ValidateException;
 class baseValidate
 {
@@ -31,7 +33,7 @@ class baseValidate
         $str=$request->getParam($params_name);
         if($str=='')
         {
-            $exception=new ValidateException(['msg'=>$msg]);
+            $exception=new BaseException(['msg'=>$msg,'code'=>'500']);
             throw $exception;
         }
         return $str;
@@ -49,5 +51,22 @@ class baseValidate
         $str=$request->getParam($params_name);
         $str=($str==1?1:2);
         return $str;
+    }
+
+    /**
+     * 方法名称:isDbExist
+     * 说明: 判定是否在数据库中存在
+     * @param $obj_name
+     * @param $search
+     * @param $msg
+     * @throws ValidateException
+     */
+    static function isDbExist($obj_name,$search,$msg,$where_str='')
+    {
+        if (baseModel::commCount($obj_name,$search,array(),array($where_str)))
+        {
+            $exception=new BaseException(['msg'=>$msg]);
+            throw $exception;
+        }
     }
 }

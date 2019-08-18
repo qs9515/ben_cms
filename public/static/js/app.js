@@ -273,7 +273,14 @@ function layer_status(action,obj) {
             var res_txt=obj.responseJSON.msg;
             if(!res_txt)
             {
-                res_txt='系统发生错误！';
+                if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
+                {
+                    res_txt=obj.responseJSON.message;
+                }
+                else
+                {
+                    res_txt='系统发生错误！';
+                }
             }
             dialog.error(res_txt);
             $(obj).prop("disabled",false);
@@ -341,7 +348,14 @@ function layer_save(form_id) {
                 }
                 if(!res_txt)
                 {
-                    res_txt='系统发生错误！';
+                    if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
+                    {
+                        res_txt=obj.responseJSON.message;
+                    }
+                    else
+                    {
+                        res_txt='系统发生错误！';
+                    }
                 }
                 dialog.error(res_txt);
             }

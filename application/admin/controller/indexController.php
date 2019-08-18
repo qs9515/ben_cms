@@ -49,7 +49,7 @@ class indexController extends baseController
 
         $nav[2]['icon']='archive';
         $nav[2]['nav_name']='文章管理';
-        $nav[2]['url']=BASE_PATH.'admin/article/art_list/';
+        $nav[2]['url']=BASE_PATH.'admin/article/artList/';
         //子元素
         $nav[2]['son'][0]['icon']='bookmark';
         $nav[2]['son'][0]['nav_name']='分类管理';

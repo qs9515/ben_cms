@@ -47,7 +47,7 @@ class systemController extends baseController
         $save_data['system_name']=confValidate::isMust('system_name',$this->_request,"网站名称不能为空！");
         $save_data['system_key']=$this->_request->getParam('system_key');
         $save_data['system_info']=$this->_request->getParam('system_info');
-        $save_data['status']=confValidate::defaultStatus('system_name',$this->_request);
+        $save_data['status']=confValidate::defaultStatus('status',$this->_request);
         $save_data['template_dir']=$this->_request->getParam('template_dir');
         $save_data['system_company']=$this->_request->getParam('system_company');
         $save_data['footer_script']=$this->_request->getParam('footer_script');

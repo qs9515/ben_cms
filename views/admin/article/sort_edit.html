@@ -1,0 +1,92 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue">
+<!-- Site wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper full-wrapper">
+    <!-- Main content -->
+    <section class="content full-content">
+        <div class="row">
+            <!-- right column -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><!--{if $data->sort_name}-->修改【<!--{$data->sort_name}-->】<!--{else}-->新增<!--{/if}-->分类</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" id="form-data">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="sort_name" class="col-sm-2 control-label">分类名称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="sort_name" class="form-control" id="sort_name" value="<!--{$data->sort_name}-->" placeholder="分类名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sort_pinyin" class="col-sm-2 control-label">分类名称拼音</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="sort_pinyin" class="form-control" id="sort_pinyin" value="<!--{$data->sort_pinyin}-->" placeholder="分类名称拼音，留空将自动生成">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sort_key" class="col-sm-2 control-label">分类关键字</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="sort_key" class="form-control" id="sort_key" value="<!--{$data->sort_key}-->" placeholder="分类关键字，多个以,分隔">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sort_info" class="col-sm-2 control-label">分类描述</label>
+
+                                <div class="col-sm-10">
+                                    <textarea name="sort_info" class="form-control" id="sort_info" rows="3" cols="60" placeholder="分类描述信息"><!--{$data->sort_info}--></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">导航</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group" id="sort_menu">
+                                        <label for="status_1" class="check_label"><input type="radio" name="sort_menu" value="1" class="minimal" id="status_1" <!--{if $data->sort_menu=='1'}--> checked<!--{/if}-->> 是</label>
+                                        <label for="status_2" class="check_label"><input type="radio" name="sort_menu" value="2" class="minimal" id="status_2" <!--{if $data->sort_menu!='1'}--> checked<!--{/if}-->> 否</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <input type="hidden" name="id" value="<!--{$data->id}-->">
+                            <button type="button" onclick="form_cacel()" class="btn btn-default">取 消</button>
+                            <button type="button" id="save" class="btn btn-info pull-right">保 存</button>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>
+<script>
+    var COMM_LIST_URI={
+        'jump_url':'<!--{$base_path}-->admin/article/sortList/',
+        'save_url':'<!--{$base_path}-->admin/article/sortSave/',
+    };
+    $("#save").click(function () {
+        if($("#sort_name").val()=='')
+        {
+            layer.msg('分类名称不能为空！');
+            $("#sort_name").focus();
+            return false;
+        }
+        layer_save('form-data');
+    });
+</script>

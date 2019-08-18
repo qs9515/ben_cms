@@ -18,6 +18,7 @@ class BaseException extends \Exception
 {
     public $code = 400;
     public $msg = '参数错误';
+    public $message = '';
     public $errorCode = 999;
 
     public $shouldToClient = true;
@@ -40,5 +41,6 @@ class BaseException extends \Exception
         if(array_key_exists('errorCode',$params)){
             $this->errorCode = $params['errorCode'];
         }
+        $this->message=$this->msg;
     }
 }

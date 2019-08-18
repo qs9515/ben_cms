@@ -30,11 +30,11 @@ class error
             $page_title='<<<系统运行错误：';
             $option=new \Whoops\Handler\PrettyPageHandler();
             $option->setPageTitle($page_title);
-            $whoops->pushHandler($option);
+            $whoops->prependHandler($option);
             if (\core\request::isAjaxRequest())
             {
                 //设置处理ajax报错的信息
-                $whoops->pushHandler(new JsonResponseHandler());
+                $whoops->prependHandler(new JsonResponseHandler());
             }
             $whoops->register();
         }

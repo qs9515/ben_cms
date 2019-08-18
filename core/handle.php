@@ -14,6 +14,7 @@
  * $LastChangedBy$
  */
 namespace core;
+use core\BaseException;
 use Exception;
 class handle
 {
@@ -24,7 +25,7 @@ class handle
     public function render(Exception $e)
     {
         $title='系统发生错误';
-        if ($e instanceof \core\BaseException)
+        if ($e instanceof BaseException)
         {
             //如果是自定义异常，则控制http状态码，不需要记录日志
             //因为这些通常是因为客户端传递参数错误或者是用户请求造成的异常
@@ -41,8 +42,10 @@ class handle
             $this->errorCode = 999;
             $this->recordErrorLog($e);
         }
-        $result['error'] = [
-            'message'  => $this->msg,
+        $result = [
+            'code'=>$this->code,
+            'msg'  => $this->msg,
+            'message'  => $this->msg,//兼容
             'error_code' => $this->errorCode,
             'file' => $_SERVER['REQUEST_URI']
         ];
@@ -52,7 +55,7 @@ class handle
         }
         else
         {
-            return $this->show_error($result['error'], $this->code,$title);
+            return $this->show_error($result, $this->code,$title);
         }
     }
 
