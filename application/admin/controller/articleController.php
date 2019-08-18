@@ -15,8 +15,11 @@
  */
 namespace application\admin\controller;
 use application\admin\controller\baseController;
+use application\admin\models\articleModel;
 use application\admin\models\baseModel;
 use application\admin\validate\articleValidate;
+use core\conf;
+use library\upload;
 use Overtrue\Pinyin\Pinyin;
 
 class articleController extends baseController
@@ -172,6 +175,89 @@ class articleController extends baseController
         $uuid=$this->_request->getParam('ids');
         $data=parent::_delete("ben_sort",$uuid,array('ben_article_base'),array('ben_article_base'=>'sort_id'));
         json($data,$data['code']);
+    }
+
+    /**
+     * 方法名称:artListAction
+     * 说明: 文章列表
+     * @throws \SmartyException
+     */
+    public function artListAction()
+    {
+        $search=array();
+        $search['keyword']=$this->_request->getParam('keyword');
+        $data=parent::_list("ben_article_base",BASE_PATH.'admin/article/artList/page/(:num)/',$search,"updated desc",array('title','desc'));
+        $this->view->assign('data',$data);
+        $this->view->display('admin/article/article_list.html');
+    }
+
+    /**
+     * 方法名称:artEditAction
+     * 说明: 添加、修改文章呈现
+     * @throws \SmartyException
+     */
+    public function artEditAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $uuid=is_array($uuid)?(isset($uuid[0])?$uuid[0]:''):$uuid;
+        if($uuid)
+        {
+            if(baseModel::commCount("ben_article_base",array('id'=>$uuid)))
+            {
+                $this->view->assign('data',baseModel::commGetDetailById("ben_article_base",$uuid));
+                $this->view->assign('data_detail',articleModel::getContentByAid($uuid));
+            }
+            else
+            {
+                $this->show_message('参数传递失败！');
+            }
+        }
+        $this->view->assign('sorts',baseModel::commList('ben_sort',0,100,array(),'sort_pinyin desc'));
+        $this->view->display('admin/article/article_edit.html');
+    }
+
+    /**
+     * 方法名称:picUploadAction
+     * 说明: 图片上传处理
+     * @throws \Exception
+     */
+    public function picUploadAction()
+    {
+        $uploader=new upload(array('allowTypes'=>array('jpg','png','gif','bmp'),'uploadPath'=>conf::get('system.upload_dir').'/article/'.date('Ymd')));
+        $files=$uploader->fileUpload($_FILES['imgFile']);
+        if($files!==false)
+        {
+            //校验图片是否包含PHP代码
+            $str=file_get_contents($files);
+            if(preg_match('~<\?php~Uis',$str)!==0)
+            {
+                unlink($files);
+                $data['message']='文件检测到非法代码，您的相关信息已被记录并通知管理员处理！';
+                $data['error']=1;
+                json($data);
+            }
+            else
+            {
+                $file_uri=str_replace(__SITEROOT.'/public',"",$files);
+                //删除未处理文件
+                $tmp_file=S('article_file_uri');
+                if(is_file(__SITEROOT.'/public'.$tmp_file))
+                {
+                    @unlink(__SITEROOT.'/public'.$tmp_file);
+                }
+                S('article_file_uri',$file_uri);
+                $data['error']=0;
+                $data['url']=$file_uri;
+                json($data);
+            }
+        }
+        else
+        {
+            $errors=$uploader->getStatus();
+            $data['message']=$errors['message'];
+            $data['error']=1;
+            json($data);
+        }
     }
 
 }

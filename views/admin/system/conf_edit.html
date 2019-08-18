@@ -44,7 +44,7 @@
                                 <div class="col-sm-6">
                                     <select class="form-control" name="template_dir" id="template_dir">
                                         <!--{foreach $sorts as $k=>$v}-->
-                                        <option value="<!--{$v.uuid}-->" <!--{if $v.uuid==$pid || $v.uuid==$data->parent_uuid}--> selected="selected"<!--{/if}-->><!--{$v.path_str}--><!--{$v.sortname}--></option>
+                                        <option value="<!--{$v.id}-->" <!--{if $v.id==$pid || $v.uuid==$data->parent_uuid}--> selected="selected"<!--{/if}-->><!--{$v.path_str}--><!--{$v.sortname}--></option>
                                         <!--{/foreach}-->
                                     </select>
                                 </div>

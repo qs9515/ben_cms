@@ -28,6 +28,8 @@ $sys_config['cache_conf']=array('type'=>'file','expire_time'=>3600*24);
 $sys_config['cache_sql_time']=5;
 //定义分页显示数量
 $sys_config['pager_div_count']=8;
+//定义上传文件存储路径
+$sys_config['upload_dir']=__SITEROOT.'/public/upload';
 //定义日志级别
 /**
  * 日志级别包含：至上往下，级别逐步升高
