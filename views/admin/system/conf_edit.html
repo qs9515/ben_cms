@@ -1,0 +1,110 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue">
+<!-- Site wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper full-wrapper">
+    <!-- Main content -->
+    <section class="content full-content">
+        <div class="row">
+            <!-- right column -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><!--{if $data->system_name}-->修改【<!--{$data->system_name}-->】<!--{else}-->新增<!--{/if}-->系统设置</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" id="form-data">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="system_name" class="col-sm-2 control-label">网站名称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="system_name" class="form-control" id="system_name" value="<!--{$data->system_name}-->" placeholder="网站名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="system_key" class="col-sm-2 control-label">网站关键字</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="system_key" class="form-control" id="system_key" value="<!--{$data->system_key}-->" placeholder="网站关键字">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="system_info" class="col-sm-2 control-label">网站描述</label>
+
+                                <div class="col-sm-10">
+                                    <textarea name="system_info" class="form-control" id="system_info" rows="3" cols="60" placeholder="网站描述"><!--{$data->system_info}--></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="template_dir" class="col-sm-2 control-label">当前模板目录</label>
+
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="template_dir" id="template_dir">
+                                        <!--{foreach $sorts as $k=>$v}-->
+                                        <option value="<!--{$v.uuid}-->" <!--{if $v.uuid==$pid || $v.uuid==$data->parent_uuid}--> selected="selected"<!--{/if}-->><!--{$v.path_str}--><!--{$v.sortname}--></option>
+                                        <!--{/foreach}-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="footer_script" class="col-sm-2 control-label">底部代码</label>
+
+                                <div class="col-sm-10">
+                                    <textarea name="footer_script" class="form-control" id="footer_script" rows="3" cols="60" placeholder="底部代码"><!--{$data->footer_script}--></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="icp" class="col-sm-2 control-label">icp</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" name="icp" class="form-control" id="icp" value="<!--{$data->icp}-->" placeholder="icp">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站状态</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group" id="status">
+                                        <label for="status_1" class="check_label"><input type="radio" name="status" value="1" class="minimal" id="status_1" <!--{if $data->status!='2'}--> checked<!--{/if}-->> 开启</label>
+                                        <label for="status_2" class="check_label"><input type="radio" name="status" value="2" class="minimal" id="status_2" <!--{if $data->status=='2'}--> checked<!--{/if}-->> 关闭</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <input type="hidden" name="uuid" value="<!--{$data->id}-->">
+                            <button type="button" onclick="form_cacel()" class="btn btn-default">取 消</button>
+                            <button type="button" id="save" class="btn btn-info pull-right">保 存</button>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>
+<script>
+    var COMM_LIST_URI={
+        'jump_url':'<!--{$base_path}-->admin/system/conf/',
+        'save_url':'<!--{$base_path}-->admin/system/confSave/',
+    };
+    $("#save").click(function () {
+        if($("#system_name").val()=='')
+        {
+            layer.msg('网站名称不能为空！');
+            $("#system_name").focus();
+            return false;
+        }
+        layer_save('form-data');
+    });
+</script>

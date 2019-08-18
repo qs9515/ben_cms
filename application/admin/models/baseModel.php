@@ -162,16 +162,16 @@ class baseModel
      * 方法名称:commGetDetailById
      * 说明: 获取表对象详细
      * @param $obj_name 表对象名称
-     * @param $uuid
+     * @param $id
      * @return bool
      */
-    static function commGetDetailById($obj_name,$uuid)
+    static function commGetDetailById($obj_name,$id)
     {
         $data=false;
-        if($uuid)
+        if($id)
         {
             $db=self::setObjName($obj_name);
-            $db->whereAdd("uuid='$uuid'");
+            $db->whereAdd("id='$id'");
             $db->find(true);
             return $db;
         }
@@ -225,16 +225,16 @@ class baseModel
      * 方法名称:commDelete
      * 说明: 删除信息
      * @param $obj_name
-     * @param $uuid
+     * @param $id
      * @return bool
      */
-    static function commDelete($obj_name,$uuid)
+    static function commDelete($obj_name,$id)
     {
         $res=false;
-        if($uuid)
+        if($id)
         {
             $db=self::setObjName($obj_name);
-            $db->whereAdd("uuid=?",array($uuid));
+            $db->whereAdd("id=?",array($id));
             $res=$db->delete();
         }
         return $res;

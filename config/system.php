@@ -20,14 +20,14 @@ $sys_config['db_debug']=false;
 $sys_config['session_id']=md5('benCmsSeoSystem');
 //定义软件版本
 $sys_config['version']='1.0.'.date('Ymd');
-//定义厂商名称
-$sys_config['company_name']='我好笨';
 //定义日志存储路径
 $sys_config['log_file']=__SITEROOT.'/_cache/logs';
 //定义缓存模式
 $sys_config['cache_conf']=array('type'=>'file','expire_time'=>3600*24);
 //定义SQL缓存时间
 $sys_config['cache_sql_time']=5;
+//定义分页显示数量
+$sys_config['pager_div_count']=8;
 //定义日志级别
 /**
  * 日志级别包含：至上往下，级别逐步升高

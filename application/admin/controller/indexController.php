@@ -42,10 +42,10 @@ class indexController extends baseController
         $nav[1]['son'][0]['url']=BASE_PATH.'admin/system/conf/';
         $nav[1]['son'][1]['icon']='cog';
         $nav[1]['son'][1]['nav_name']='登陆日志管理';
-        $nav[1]['son'][1]['url']=BASE_PATH.'admin/system/login_log/';
+        $nav[1]['son'][1]['url']=BASE_PATH.'admin/system/loginLog/';
         $nav[1]['son'][2]['icon']='cog';
         $nav[1]['son'][2]['nav_name']='访问日志管理';
-        $nav[1]['son'][2]['url']=BASE_PATH.'admin/system/event_log/';
+        $nav[1]['son'][2]['url']=BASE_PATH.'admin/system/eventLog/';
 
         $nav[2]['icon']='archive';
         $nav[2]['nav_name']='文章管理';
@@ -53,24 +53,24 @@ class indexController extends baseController
         //子元素
         $nav[2]['son'][0]['icon']='bookmark';
         $nav[2]['son'][0]['nav_name']='分类管理';
-        $nav[2]['son'][0]['url']=BASE_PATH.'admin/article/sort_list/';
+        $nav[2]['son'][0]['url']=BASE_PATH.'admin/article/sortList/';
         $nav[2]['son'][1]['icon']='book';
         $nav[2]['son'][1]['nav_name']='文章管理';
-        $nav[2]['son'][1]['url']=BASE_PATH.'admin/article/art_list/';
+        $nav[2]['son'][1]['url']=BASE_PATH.'admin/article/artList/';
         $nav[2]['son'][2]['icon']='book';
         $nav[2]['son'][2]['nav_name']='tag管理';
-        $nav[2]['son'][2]['url']=BASE_PATH.'admin/article/tag_list/';
+        $nav[2]['son'][2]['url']=BASE_PATH.'admin/article/tagList/';
 
         $nav[3]['icon']='database';
         $nav[3]['nav_name']='其他管理';
-        $nav[3]['url']=BASE_PATH.'manage/other/link_list/';
+        $nav[3]['url']=BASE_PATH.'manage/other/linkList/';
         //子元素
         $nav[3]['son'][0]['icon']='cubes';
         $nav[3]['son'][0]['nav_name']='友情连接管理';
-        $nav[3]['son'][0]['url']=BASE_PATH.'admin/other/link_list/';
+        $nav[3]['son'][0]['url']=BASE_PATH.'admin/other/linkList/';
         $nav[3]['son'][1]['icon']='cubes';
         $nav[3]['son'][1]['nav_name']='模板管理';
-        $nav[3]['son'][1]['url']=BASE_PATH.'admin/other/template_list/';
+        $nav[3]['son'][1]['url']=BASE_PATH.'admin/other/templateList/';
 
         $this->view->assign('nav',$nav);
         $this->view->display("admin/manage/index.html");

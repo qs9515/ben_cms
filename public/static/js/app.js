@@ -280,6 +280,25 @@ function layer_status(action,obj) {
         }
     });
 };
+//列表查看详细按钮
+function layer_detail(obj) {
+    //参数
+    var attr_params = $(obj).attr('attr-params');
+    //弹出框标题
+    var op_title = $(obj).attr('attr-title');
+    var url = COMM_LIST_URI.detail_url + attr_params;
+    layer.open({
+        type: 2,
+        title:op_title,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['60%', '70%'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content:url,
+        end:function(){
+        }
+    });
+};
 //表单保存
 function layer_save(form_id) {
     var jump_url = COMM_LIST_URI.jump_url;

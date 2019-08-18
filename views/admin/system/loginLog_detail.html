@@ -1,0 +1,71 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue">
+<!-- Site wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper full-wrapper">
+    <!-- Main content -->
+    <section class="content full-content">
+        <div class="row">
+            <!-- right column -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">登录日志</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th style="width:30%">用户名:</th>
+                                <td><!--{$data->username}--></td>
+                            </tr>
+                            <tr>
+                                <th>IP</th>
+                                <td><i class="fa fa-desktop"></i> <!--{$data->ip}--></td>
+                            </tr>
+                            <tr>
+                                <th>状态</th>
+                                <td><!--{if $data->status=='1'}--><span class="label label-success">成功</span><!--{else}--><span class="label label-danger">失败</span><!--{/if}--></td>
+                            </tr>
+                            <tr>
+                                <th>来路:</th>
+                                <td><!--{$data->source}--></td>
+                            </tr>
+                            <tr>
+                                <th>浏览器UA:</th>
+                                <td><i class="fa fa-firefox"></i> <!--{$data->ua}--></td>
+                            </tr>
+                            <tr>
+                                <th>描述:</th>
+                                <td><!--{$data->res}--></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>
+<script>
+    var COMM_LIST_URI={
+        'jump_url':'<!--{$base_path}-->admin/system/conf/',
+        'save_url':'<!--{$base_path}-->admin/system/confSave/',
+    };
+    $("#save").click(function () {
+        if($("#system_name").val()=='')
+        {
+            layer.msg('网站名称不能为空！');
+            $("#system_name").focus();
+            return false;
+        }
+        layer_save('form-data');
+    });
+</script>
