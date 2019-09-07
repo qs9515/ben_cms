@@ -48,24 +48,57 @@ class request{
 	 * @param string $key 键
 	 * @param string $value 默认值
 	 */
-	public function getParam($key='',$value='',$type=''){
-	    if(in_array(strtolower($type),array('get','post','request')))
+    public function getParam($key='',$value='',$type=''){
+        if(in_array(strtolower($type),array('get','post','request')))
         {
             if(isset($this->request[$type][$key])){
-                return $this->request[$type][$key];
+                $data=$this->_xss($this->request[$type][$key]);
+                return $data;
             }else{
                 return $value;
             }
         }
-		else
+        else
         {
             if(isset($this->request[$key])){
-                return $this->request[$key];
+                $data=$this->_xss($this->request[$key]);
+                return $data;
             }else{
                 return $value;
             }
         }
-	}
+    }
+
+    /**
+     * 方法名称:_xss
+     * 说明: Html内容转义
+     * @param $arr
+     * @return array|string
+     */
+    private function _xss($arr)
+    {
+        if(is_array($arr))
+        {
+            foreach ($arr as $m=>$n)
+            {
+                if (is_array($n))
+                {
+                    $arr[$m]=$this->_xss($n);
+                }
+                else
+                {
+                    // 过滤字符串
+                    $arr[$m]=htmlspecialchars($n);
+                }
+            }
+        }
+        else
+        {
+            // 过滤字符串
+            $arr=htmlspecialchars($arr);
+        }
+        return $arr;
+    }
 	public function getBasePath(){
 		return __BASEPATH;
 	}

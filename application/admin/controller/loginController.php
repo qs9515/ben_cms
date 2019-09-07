@@ -18,6 +18,8 @@ use application\admin\models\loginModel;
 use core\controller;
 use core\conf;
 use library\code;
+use library\rsa;
+
 class loginController extends controller
 {
     public function init()
@@ -35,6 +37,19 @@ class loginController extends controller
     public function loginAction()
     {
         $this->view->assign("phone",C("user_token"));
+        $rsa_status=conf::get('system.login_rsa');
+        if($rsa_status)
+        {
+            $config = array(
+                "digest_alg"        => "sha512",
+                "private_key_bits"     => 4096,           //字节数  512 1024 2048  4096 等
+                "private_key_type"     => OPENSSL_KEYTYPE_RSA,   //加密类型
+                "config"               => "E:/webhome/php7.3.4/extras/ssl/openssl.cnf",
+            );
+            $public_key_file=rsa::getPublicKey($config,conf::get('system.private_key_dir'));
+            $this->view->assign('rsa_public_key',$public_key_file);
+        }
+        $this->view->assign('rsa_status',$rsa_status?1:2);
         $this->view->display("admin/manage/login.html");
     }
 
@@ -59,7 +74,9 @@ class loginController extends controller
     {
         //获取参数
         $phone=$this->_request->getParam('phone');
+        $phone=rsa::authCode($phone,'D',conf::get('system.private_key_dir'));
         $password=$this->_request->getParam('password');
+        $password=rsa::authCode($password,'D',conf::get('system.private_key_dir'));
         $code=trim(strtolower($this->_request->getParam('code')));
         //返回页面信息
         $msg['code']=0;

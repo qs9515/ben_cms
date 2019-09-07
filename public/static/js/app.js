@@ -367,6 +367,56 @@ function layer_save(form_id) {
         return false;
     }
 }
+//获取关键字
+function layer_get_key(title_input_id,res_input_id) {
+    var title;
+    title=$("#"+title_input_id).val();
+    if(title!='')
+    {
+        $.ajax({
+            type: "GET",
+            url: COMM_LIST_URI.get_key_url,
+            data:"title="+title,
+            dataType:"json",
+            beforeSend:function()
+            {
+                var index = layer.load(0, {shade: false});
+            },
+            success: function(data){
+                layer.closeAll('loading');
+                if(data.code=='200')
+                {
+                    layer.msg('获取成功！');
+                    $("#"+res_input_id).val(data.msg);
+                }
+                else
+                {
+                    dialog.error('获取关键字失败！');
+                }
+            },
+            error:function (obj,data) {
+                layer.closeAll('loading');
+                var res_txt=obj.responseJSON.msg;
+                if(!res_txt)
+                {
+                    if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
+                    {
+                        res_txt=obj.responseJSON.message;
+                    }
+                    else
+                    {
+                        res_txt='系统发生错误！';
+                    }
+                }
+                dialog.error(res_txt);
+            }
+        });
+    }
+    else
+    {
+        dialog.error('请输入标题以获取关键字！');
+    }
+}
 //列表检索
 function table_search(form_id) {
     $("#"+form_id+" button").attr("disabled",true);

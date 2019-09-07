@@ -185,4 +185,47 @@ class baseController extends controller
         }
         return $data;
     }
+
+    /**
+     * 方法名称:_getKey
+     * 说明: 从搜索引擎获取检索结果
+     * @param $title
+     * @return array
+     */
+    protected function _getKey($title)
+    {
+        $url = "http://www.baidu.com/s?wd=".$title;
+        $header = array (
+            'User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36'
+        );
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $header );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        // 执行
+        $content = curl_exec ( $ch );
+        if ($content == FALSE) {
+            return array('msg'=>curl_error($ch));
+        }
+        // 关闭
+        curl_close ( $ch );
+        //输出结果
+        preg_match("~<div id=\"rs\">(.*)<div id=\"page\" >~Uis",$content,$res);
+        if (isset($res[1]))
+        {
+            preg_match_all("~<a [^>]+>(.*)</a>~Uis",$res[1],$ci);
+            return array('msg'=>implode(',',$ci[1]),'code'=>200);
+        }
+        return array('msg'=>'未匹配到内容');
+    }
+    /**
+     * 方法名称:getKeyAction
+     * 说明: 从百度获取长尾词
+     */
+    public function getKeyAction()
+    {
+        $title=$this->_request->getParam('title');
+        $str=self::_getKey($title);
+        return json(array('msg'=>$str['msg'],'code'=>$str['code']));
+    }
 }

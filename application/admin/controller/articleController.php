@@ -246,6 +246,10 @@ class articleController extends baseController
                     @unlink(__SITEROOT.'/public'.$tmp_file);
                 }
                 S('article_file_uri',$file_uri);
+                //写入数据库
+                $create_data['attach_uri']=$file_uri;
+                $create_data['status']=2;
+                articleModel::addAttachment($create_data);
                 $data['error']=0;
                 $data['url']=$file_uri;
                 json($data);
@@ -258,6 +262,105 @@ class articleController extends baseController
             $data['error']=1;
             json($data);
         }
+    }
+
+    /**
+     * 方法名称:artSaveAction
+     * 说明: 保存文章
+     * @throws \library\exception\ValidateException
+     */
+    public function artSaveAction()
+    {
+        $save_data['title']=articleValidate::isMust('title',$this->_request,"文章标题不能为空！");
+        $save_data['sort_id']=articleValidate::isMust('sort_id',$this->_request,"文章分类不能为空！");
+        $save_data['content']=articleValidate::isMust('content',$this->_request,"文章内容不能为空！");
+        $save_data['status']=articleValidate::defaultStatus('status',$this->_request);
+        $id=$this->_request->getParam('id');
+        $save_data['updated']=date('Y-m-d H:i:s');
+        $save_data['from']=$this->_request->getParam('from');
+        $save_data['author']=$this->_request->getParam('author');
+        //文章描述
+        $save_data['desc']=$this->_request->getParam('desc');
+        if($save_data['desc']=='')
+        {
+            $save_data['desc']=mb_substr(strip_tags($save_data['content']),0,128);
+        }
+        //关键字
+        $save_data['key']=$this->_request->getParam('key');
+        if($save_data['key']=='')
+        {
+            $tmp_key=self::_getKey($save_data['title']);
+            if (isset($tmp_key['msg']) && $tmp_key['code']=='200')
+            {
+                $save_data['key']=$tmp_key['msg'];
+            }
+        }
+        if($save_data['key'])
+        {
+            $tmp_data=explode(',',$save_data['key']);
+            $tags=articleModel::addTags($tmp_data);
+        }
+        //标题图片
+        $save_data['head_pic']=S('article_file_uri');
+        if ($id)
+        {
+            //修改
+            if(articleModel::articleEdit($save_data,array('id'=>$id)))
+            {
+                if (is_array($tags) && !empty($tags))
+                {
+                    articleModel::addArticleTags($id,$tags);
+                }
+                if ($save_data['head_pic'])
+                {
+                    articleModel::editAttachementStatus($save_data['head_pic']);
+                }
+                $data['code']='200';
+                $data['msg']='修改文章信息成功！';
+                json($data,$data['code']);
+            }
+            else
+            {
+                $data['msg']='修改文章信息失败！';
+                json($data,$data['code']);
+            }
+        }
+        else
+        {
+            //新增
+            $save_data['created']=$save_data['updated'];
+            $aid=articleModel::articleAdd($save_data);
+            if ($aid)
+            {
+                if (is_array($tags) && !empty($tags))
+                {
+                    articleModel::addArticleTags($aid,$tags);
+                }
+                if($save_data['head_pic'])
+                {
+                    articleModel::editAttachementStatus($save_data['head_pic']);
+                }
+                $data['code']='200';
+                $data['msg']='新增文章信息成功！';
+                json($data,$data['code']);
+            }
+            else
+            {
+                $data['msg']='新增文章信息失败！';
+                json($data,$data['code']);
+            }
+        }
+    }
+
+    /**
+     * 方法名称:artDeleteAction
+     * 说明: 删除文章
+     */
+    public function artDeleteAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $data=articleModel::articleDelete($uuid);
+        json($data,$data['code']);
     }
 
 }

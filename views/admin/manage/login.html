@@ -53,6 +53,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
+                    <input type="hidden" name="public_key" value="<!--{$rsa_public_key}-->" id="public_key">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
                 </div>
                 <!-- /.col -->
@@ -69,6 +70,7 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="<!--{$base_path}-->static/js/plugin/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="<!--{$base_path}-->static/js/plugin/layer/layer.js"></script>
+<script src="<!--{$base_path}-->static/js/jsencrypt.min.js"></script>
 <script>
     $("#login").submit(function () {
         if($("#phone").val()=='')
@@ -89,10 +91,20 @@
             $("#code").focus();
             return false;
         }
+        //加密数据
+        phone_data=$("#phone").val();
+        password_data=$("#password").val();
+        if('<!--{$rsa_status}-->'!='2')
+        {
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey($("#public_key").val());
+            phone_data=encrypt.encrypt($("#phone").val());
+            password_data=encrypt.encrypt($("#password").val());
+        }
         $.ajax({
             type: "POST",
             url: "<!--{$base_path}-->admin/login/save/",
-            data: $("#login").serialize(),
+            data: {'phone':phone_data,'password':password_data,'code':$("#code").val()},
             dataType:"json",
             success: function(msg){
                 if(msg.code==200)

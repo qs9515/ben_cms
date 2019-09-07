@@ -14,9 +14,15 @@
  * $LastChangedBy$
  */
 namespace web_dir;
+ini_set("session.cookie_httponly", 'on');
+session_start();
 set_time_limit(0);
 ini_set("display_errors",'on');
 header("Content-type: text/html;charset=utf-8");
+//发送xss安全头
+header("X-XSS-Protection: 1; mode=block");
+header("X-Content-Type-Options: nosniff");
+header("X-Content-Security-Policy: default-src 'self'");
 date_default_timezone_set('Asia/Shanghai');
 //定义包含文件绝对路径
 define('__SITEROOT',dirname(dirname(__FILE__)));

@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="col-sm-2 control-label">
-                                        <a class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="自动获取长尾关键词"><i class="fa fa-key"></i>获取关键词</a>
+                                        <a class="btn btn-danger btn-xs" id="getKey" data-toggle="tooltip" data-placement="top" title="自动获取长尾关键词" onclick="layer_get_key('title','key')"><i class="fa fa-key"></i>获取关键词</a>
                                     </label>
                                 </div>
                             </div>
@@ -43,16 +43,9 @@
                                     <select class="form-control" name="sort_id" id="sort_id">
                                         <option value="">请选择分类</option>
                                         <!--{foreach $sorts as $k=>$v}-->
-                                        <option value="<!--{$v.uuid}-->" <!--{if $v.id==$data->sort_id}--> selected="selected"<!--{/if}-->><!--{$v.sort_name}--></option>
+                                        <option value="<!--{$v.id}-->" <!--{if $v.id==$data->sort_id}--> selected="selected"<!--{/if}-->><!--{$v.sort_name}--></option>
                                         <!--{/foreach}-->
                                     </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="desc" class="col-sm-2 control-label">描述</label>
-
-                                <div class="col-sm-10">
-                                    <textarea name="desc" class="form-control" id="desc" rows="3" cols="60" placeholder="文章描述"><!--{$data->desc}--></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -60,6 +53,13 @@
 
                                 <div class="col-sm-10">
                                     <textarea name="content" class="form-control" id="content" rows="12" cols="60" placeholder="文章内容"><!--{$data->content}--></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="desc" class="col-sm-2 control-label">描述</label>
+
+                                <div class="col-sm-10">
+                                    <textarea name="desc" class="form-control" id="desc" rows="3" cols="60" placeholder="文章描述"><!--{$data->desc}--></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -131,13 +131,20 @@
     });
     var COMM_LIST_URI={
         'jump_url':'<!--{$base_path}-->admin/article/artList/',
-        'save_url':'<!--{$base_path}-->admin/article/arttSave/',
+        'save_url':'<!--{$base_path}-->admin/article/artSave/',
+        'get_key_url':'<!--{$base_path}-->admin/base/getKey/',
     };
     $("#save").click(function () {
-        if($("#sort_name").val()=='')
+        if($("#sort_id").val()=='')
         {
-            layer.msg('分类名称不能为空！');
-            $("#sort_name").focus();
+            layer.msg('分类不能为空！');
+            $("#sort_id").focus();
+            return false;
+        }
+        if($("#title").val()=='')
+        {
+            layer.msg('标题不能为空！');
+            $("#title").focus();
             return false;
         }
         editor.sync();
@@ -145,5 +152,5 @@
     });
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
-    })
+    });
 </script>
