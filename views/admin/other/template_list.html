@@ -2,7 +2,7 @@
 <section class="content-header">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 后台首页</a></li>
-        <li class="active">文章分类列表</li>
+        <li class="active">模板列表</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -11,16 +11,16 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-globe"></i> 文章分类列表
+                <i class="fa fa-globe"></i> 模板列表
             </h2>
         </div>
         <!-- /.col -->
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <button type="button" class="btn btn-success btn-sm" attr-title="新增顶级分类" onclick="layer_add(this)" style="margin-right: 5px;"><i class="fa fa-plus"></i> 新增
+            <button type="button" class="btn btn-success btn-sm" attr-title="新增模板" onclick="layer_add(this)" style="margin-right: 5px;"><i class="fa fa-plus"></i> 新增
             </button>
-            <button type="button" class="btn btn-primary btn-sm" attr-title="修改分类" onclick="layer_edit(this)" style="margin-right: 5px;">
+            <button type="button" class="btn btn-primary btn-sm" attr-title="修改模板" onclick="layer_edit(this)" style="margin-right: 5px;">
                 <i class="fa fa-edit"></i> 修改
             </button>
             <button type="button" class="btn btn-danger btn-sm" onclick="layer_status('delete',this)" style="margin-right: 5px;">
@@ -43,9 +43,9 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" name="chkall" onclick="chk_all(this,'ids')"></th>
-                    <th>分类名称</th>
-                    <th>关键字</th>
-                    <th>菜单</th>
+                    <th>模板名称</th>
+                    <th>模板路径</th>
+                    <th>状态</th>
                     <th>时间</th>
                     <th>选项</th>
                 </tr>
@@ -54,9 +54,9 @@
                 <!--{foreach $data as $k=>$v}-->
                 <tr>
                     <td><input type="checkbox" name="ids[]" value="<!--{$v.id}-->"></td>
-                    <td><!--{$v.sort_name}--></td>
-                    <td><!--{$v.sort_key}--></td>
-                    <td><!--{if $v.sort_menu=='1'}--><span class="label label-success">是</span><!--{else}--><span class="label label-danger">否</span><!--{/if}--></td>
+                    <td><!--{$v.template_name}--></td>
+                    <td><!--{$v.template_path}--></td>
+                    <td><!--{if $v.status=='1'}--><span class="label label-success">启用</span><!--{else}--><span class="label label-danger">未启用</span><!--{/if}--></td>
                     <td><!--{$v.created}--></td>
                     <td>
                         <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="修改记录" attr-title="编辑【<!--{$v.sortname}-->】信息" attr-params="?ids[]=<!--{$v.id}-->" onclick="layer_add(this)"><i class="fa fa-edit"></i></a>
@@ -74,10 +74,10 @@
 <!-- /.content -->
 <script>
     var COMM_LIST_URI={
-        'add_url':'<!--{$base_path}-->admin/article/sortEdit/',
-        'search_url':'<!--{$base_path}-->admin/article/sortList/page/<!--{$currentPage}-->/',
-        'status_url':'<!--{$base_path}-->admin/article/sortStatus/',
-        'delete_url':'<!--{$base_path}-->admin/article/sortDelete/',
+        'add_url':'<!--{$base_path}-->admin/other/templateEdit/',
+        'search_url':'<!--{$base_path}-->admin/other/templateList/page/<!--{$currentPage}-->/',
+        'status_url':'<!--{$base_path}-->admin/other/templateStatus/',
+        'delete_url':'<!--{$base_path}-->admin/other/templateDelete/',
     };
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();

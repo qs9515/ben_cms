@@ -60,6 +60,7 @@ class baseController extends controller
         $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
         $this->view->assign('pager',pager_ajax($paginator));
         $this->view->assign("search",$search);
+        $this->view->assign("currentPage",$currentPage);
         return baseModel::commList($model_name,($currentPage-1)*$itemsPerPage,$itemsPerPage,$search,$orderBy,$like_arr,$exception_arr);
     }
 

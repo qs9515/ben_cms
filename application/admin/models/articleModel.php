@@ -214,7 +214,7 @@ class articleModel extends baseModel
                 {
                     $db_at=new ben_attachment("m");
                     $db_at->whereAdd("attach_uri=?",array($article->head_pic));
-                    if ($db_at->delete())
+                    if ($db_at->delete() && strpos($article->head_pic,"http")!==false)
                     {
                         @unlink(__SITEROOT.'/public'.$article->head_pic);
                     }
@@ -245,6 +245,49 @@ class articleModel extends baseModel
         $content=self::getContentByAid($uuid);
         $data->sort_name=$sort->sort_name;
         $data->content=htmlspecialchars_decode($content->content);
+        return $data;
+    }
+
+    /**
+     * 方法名称:tagDelete
+     * 说明: 删除tag
+     * @param $ids
+     * @return mixed
+     * @throws \Exception
+     */
+    static function tagDelete($ids)
+    {
+        $uuids=array();
+        if(!is_array($ids))
+        {
+            $uuids=array($ids);
+        }
+        else
+        {
+            $uuids=$ids;
+        }
+        $succ=0;
+        $err=0;
+        foreach ($uuids as $k=>$v)
+        {
+            //删除基础表
+            $db=new ben_tags("m");
+            $db->whereAdd("id=?",array($v));
+            if($db->delete())
+            {
+                //删除关联tags表
+                $db_a=new ben_tag_article("m");
+                $db_a->whereAdd("tid=?",array($v));
+                $db_a->delete();
+                $succ++;
+            }
+            else
+            {
+                $err++;
+            }
+        }
+        $data['code']='200';
+        $data['msg']='删除记录完成，其中成功【'.$succ.'】条，失败【'.$err.'】条！';
         return $data;
     }
 }

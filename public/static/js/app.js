@@ -100,18 +100,7 @@ function main_right_load(target_uri,obj_nav) {
         },
         error:function (obj,data) {
             layer.closeAll('loading');
-            var res_txt=obj.responseJSON.error.message;
-            if(res_txt==undefined)
-            {
-                if (obj.responseText!=undefined)
-                {
-                    res_txt=obj.responseText;
-                }
-                else
-                {
-                    res_txt = '系统发生错误！';
-                }
-            }
+            var res_txt=comm_err(obj);
             var error_msg=err_500(res_txt);
             $("#main-content").html(error_msg);
         }
@@ -133,18 +122,7 @@ function ajax_page(target_uri) {
             },
             error: function (obj, data) {
                 layer.closeAll('loading');
-                var res_txt = obj.responseJSON.error.message;
-                if(res_txt==undefined)
-                {
-                    if (obj.responseText!=undefined)
-                    {
-                        res_txt=obj.responseText;
-                    }
-                    else
-                    {
-                        res_txt = '系统发生错误！';
-                    }
-                }
+                var res_txt=comm_err(obj);
                 var error_msg=err_500(res_txt);
                 $("#main-content").html(error_msg);
             }
@@ -270,23 +248,34 @@ function layer_status(action,obj) {
         },
         error:function (obj,data) {
             layer.closeAll('loading');
-            var res_txt=obj.responseJSON.msg;
-            if(!res_txt)
-            {
-                if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
-                {
-                    res_txt=obj.responseJSON.message;
-                }
-                else
-                {
-                    res_txt='系统发生错误！';
-                }
-            }
-            dialog.error(res_txt);
+            dialog.error(comm_err(obj));
             $(obj).prop("disabled",false);
         }
     });
 };
+//公共错误处理
+function comm_err(obj) {
+    var res_txt=obj.responseJSON.msg;
+    if(res_txt==undefined)
+    {
+        if (obj.responseJSON.error.message!=undefined)
+        {
+            res_txt=obj.responseJSON.error.message;
+        }
+        if(obj.responseJSON.message!=undefined && obj.responseJSON.message!='')
+        {
+            res_txt=obj.responseJSON.message;
+        }
+        else
+        {
+            if (res_txt=='')
+            {
+                res_txt='系统发生错误！';
+            }
+        }
+    }
+    return res_txt;
+}
 //列表查看详细按钮
 function layer_detail(obj) {
     //参数
@@ -338,26 +327,7 @@ function layer_save(form_id) {
             },
             error:function (obj,data) {
                 layer.closeAll('loading');
-                if(undefined==obj.responseJSON)
-                {
-                    var res_txt=obj.responseText;
-                }
-                else
-                {
-                    var res_txt=obj.responseJSON.msg;
-                }
-                if(!res_txt)
-                {
-                    if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
-                    {
-                        res_txt=obj.responseJSON.message;
-                    }
-                    else
-                    {
-                        res_txt='系统发生错误！';
-                    }
-                }
-                dialog.error(res_txt);
+                dialog.error(comm_err(obj));
             }
         });
     }
@@ -396,19 +366,7 @@ function layer_get_key(title_input_id,res_input_id) {
             },
             error:function (obj,data) {
                 layer.closeAll('loading');
-                var res_txt=obj.responseJSON.msg;
-                if(!res_txt)
-                {
-                    if(obj.responseJSON.message!='' && obj.responseJSON.message!='')
-                    {
-                        res_txt=obj.responseJSON.message;
-                    }
-                    else
-                    {
-                        res_txt='系统发生错误！';
-                    }
-                }
-                dialog.error(res_txt);
+                dialog.error(comm_err(obj));
             }
         });
     }
@@ -441,12 +399,7 @@ function table_search(form_id) {
             },
             error:function (obj,data) {
                 layer.closeAll('loading');
-                var res_txt = obj.responseJSON.error.message;
-                if(!res_txt)
-                {
-                    res_txt='系统发生错误！';
-                }
-                dialog.error(res_txt);
+                dialog.error(comm_err(obj));
             }
         });
     }
@@ -511,20 +464,8 @@ function btnCheck(obj,form_uri) {
                 return false;
             }
         },
-        error:function (obj) {
-            if(undefined==obj.responseJSON)
-            {
-                var res_txt=obj.responseText;
-            }
-            else
-            {
-                var res_txt=obj.responseJSON.msg;
-            }
-            if(!res_txt)
-            {
-                res_txt='系统发生错误！';
-            }
-            dialog.error(res_txt);
+        error:function (res) {
+            dialog.error(comm_err(res));
             $(obj).attr("disabled", false);
             $(obj).html("获取验证码");
             $(obj).addClass("am-btn-warning");

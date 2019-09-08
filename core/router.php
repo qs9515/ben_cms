@@ -352,7 +352,7 @@ class router{
                     }
                     else
                     {
-                        throw new \Exception('指定的方法：【'.$action.'】不存在!','500');
+                        throw new \core\BaseException(['msg'=>'指定的方法：【'.$action.'】不存在!','code'=>'500']);
                     }
                 }
                 else

@@ -57,7 +57,7 @@
                 <!--{foreach $data as $k=>$v}-->
                 <tr>
                     <td><input type="checkbox" name="ids[]" value="<!--{$v.id}-->"></td>
-                    <td><!--{$v.title}--></td>
+                    <td><!--{if $v.head_pic}--><i class="fa fa-image"></i> <!--{/if}--><!--{$v.title}--></td>
                     <td><!--{$v.author}--></td>
                     <td><!--{$v.views}--></td>
                     <td><!--{$v.zan}--></td>
@@ -83,7 +83,7 @@
 <script>
     var COMM_LIST_URI={
         'add_url':'<!--{$base_path}-->admin/article/artEdit/',
-        'search_url':'<!--{$base_path}-->admin/article/artList/',
+        'search_url':'<!--{$base_path}-->admin/article/artList/page/<!--{$currentPage}-->/',
         'detail_url':'<!--{$base_path}-->admin/article/artDetail/',
         'status_url':'<!--{$base_path}-->admin/article/artStatus/',
         'delete_url':'<!--{$base_path}-->admin/article/artDelete/',

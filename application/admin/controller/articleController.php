@@ -291,7 +291,7 @@ class articleController extends baseController
         if($save_data['keyword']=='')
         {
             $tmp_key=self::_getKey($save_data['title']);
-            if (isset($tmp_key['msg']) && $tmp_key['code']=='200')
+            if (isset($tmp_key['msg']) && isset($tmp_key['code']) && $tmp_key['code']=='200')
             {
                 $save_data['keyword']=$tmp_key['msg'];
             }
@@ -303,6 +303,32 @@ class articleController extends baseController
         }
         //标题图片
         $save_data['head_pic']=S('article_file_uri');
+        if($save_data['head_pic']=='')
+        {
+            //下载网络图片
+            preg_match_all('~<img(.+)>~Uis',htmlspecialchars_decode($save_data['content']),$res);
+            if(isset($res[1]))
+            {
+                foreach ($res[1] as $k=>$v)
+                {
+                    preg_match_all('~src=[\'|"]([^\']|[^"]+)[\'|"]~',$v,$new);
+                    if (isset($new[1][1]) && $new[1][1]!='')
+                    {
+                        if (strpos($new[1][1],'http')!==false)
+                        {
+                            //下载远程图片
+                            $content = file_get_contents($new[1][1]);
+                            $ext=pathinfo(parse_url($new[1][1], PHP_URL_PATH ),PATHINFO_EXTENSION);
+                            $ext=$ext?$ext:'jpg';
+                            $new[1][1]=conf::get('system.upload_dir').'/article/'.date('Ymd').'/'.md5(time()).'.'.$ext;
+                            file_put_contents($new[1][1], $content);
+                        }
+                        $save_data['head_pic']=$new[1][1];
+                        continue;
+                    }
+                }
+            }
+        }
         if ($id)
         {
             //修改
@@ -403,5 +429,17 @@ class articleController extends baseController
         }
         $this->view->assign('data',$data);
         $this->view->display('admin/article/tag_list.html');
+    }
+
+    /**
+     * 方法名称:tagDeleteAction
+     * 说明: tags删除
+     * @throws \Exception
+     */
+    public function tagDeleteAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $data=articleModel::tagDelete($uuid);
+        json($data,$data['code']);
     }
 }
