@@ -36,6 +36,19 @@ $sys_config['expire_time']= 3600*24*5;
 $sys_config['upload_dir']=__SITEROOT.'/public/upload';
 //定义加密私钥存储路径
 $sys_config['private_key_dir']=__SITEROOT.'/config';
+//定义加密配置信息
+$sys_config['rsa_config']=array(
+    "digest_alg"        => "sha512",
+    "private_key_bits"     => 4096,           //字节数  512 1024 2048  4096 等
+    "private_key_type"     => OPENSSL_KEYTYPE_RSA,   //加密类型
+);
+//windows服务器，需要配置openssl.cnf文件地址
+if (strtoupper(substr(PHP_OS,0,3))=='WIN')
+{
+    $sys_config['rsa_config']['config']="E:/webhome/php7.3.4/extras/ssl/openssl.cnf";
+}
+//定义访问日志表名称
+$sys_config['logs_table']='ben_views_logs';
 //定义日志级别
 /**
  * 日志级别包含：至上往下，级别逐步升高

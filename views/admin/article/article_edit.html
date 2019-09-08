@@ -25,14 +25,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="key" class="col-sm-2 control-label">关键字</label>
+                                <label for="keyword" class="col-sm-2 control-label">关键字</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="key" class="form-control" id="key" value="<!--{$data->key}-->" placeholder="关键字，多个关键字以,分隔">
+                                    <input type="text" name="keyword" class="form-control" id="keyword" value="<!--{$data->keyword}-->" placeholder="关键字，多个关键字以,分隔">
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="col-sm-2 control-label">
-                                        <a class="btn btn-danger btn-xs" id="getKey" data-toggle="tooltip" data-placement="top" title="自动获取长尾关键词" onclick="layer_get_key('title','key')"><i class="fa fa-key"></i>获取关键词</a>
+                                        <a class="btn btn-danger btn-xs" id="getKey" data-toggle="tooltip" data-placement="top" title="自动获取长尾关键词" onclick="layer_get_key('title','keyword')"><i class="fa fa-key"></i>获取关键词</a>
                                     </label>
                                 </div>
                             </div>
@@ -52,14 +52,14 @@
                                 <label for="content" class="col-sm-2 control-label">内容</label>
 
                                 <div class="col-sm-10">
-                                    <textarea name="content" class="form-control" id="content" rows="12" cols="60" placeholder="文章内容"><!--{$data->content}--></textarea>
+                                    <textarea name="content" class="form-control" id="content" rows="12" cols="60" placeholder="文章内容"><!--{$data_detail->content}--></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="desc" class="col-sm-2 control-label">描述</label>
+                                <label for="info" class="col-sm-2 control-label">描述</label>
 
                                 <div class="col-sm-10">
-                                    <textarea name="desc" class="form-control" id="desc" rows="3" cols="60" placeholder="文章描述"><!--{$data->desc}--></textarea>
+                                    <textarea name="info" class="form-control" id="info" rows="3" cols="60" placeholder="文章描述"><!--{$data->info}--></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -70,10 +70,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="from" class="col-sm-2 control-label">来源</label>
+                                <label for="uri" class="col-sm-2 control-label">来源</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" name="from" class="form-control" id="from" value="<!--{$data->from}-->" placeholder="来源">
+                                    <input type="text" name="uri" class="form-control" id="uri" value="<!--{$data->uri}-->" placeholder="来源">
                                 </div>
                             </div>
 

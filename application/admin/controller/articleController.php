@@ -186,7 +186,7 @@ class articleController extends baseController
     {
         $search=array();
         $search['keyword']=$this->_request->getParam('keyword');
-        $data=parent::_list("ben_article_base",BASE_PATH.'admin/article/artList/page/(:num)/',$search,"updated desc",array('title','desc'));
+        $data=parent::_list("ben_article_base",BASE_PATH.'admin/article/artList/page/(:num)/',$search,"updated desc",array('title','keyword','info'));
         $this->view->assign('data',$data);
         $this->view->display('admin/article/article_list.html');
     }
@@ -277,27 +277,28 @@ class articleController extends baseController
         $save_data['status']=articleValidate::defaultStatus('status',$this->_request);
         $id=$this->_request->getParam('id');
         $save_data['updated']=date('Y-m-d H:i:s');
-        $save_data['from']=$this->_request->getParam('from');
+        $save_data['uri']=$this->_request->getParam('uri');
         $save_data['author']=$this->_request->getParam('author');
+        $save_data['author']=$save_data['author']?$save_data['author']:S('user_token');
         //文章描述
-        $save_data['desc']=$this->_request->getParam('desc');
-        if($save_data['desc']=='')
+        $save_data['info']=$this->_request->getParam('info');
+        if($save_data['info']=='')
         {
-            $save_data['desc']=mb_substr(strip_tags($save_data['content']),0,128);
+            $save_data['info']=mb_substr(strip_tags(htmlspecialchars_decode($save_data['content'])),0,128);
         }
         //关键字
-        $save_data['key']=$this->_request->getParam('key');
-        if($save_data['key']=='')
+        $save_data['keyword']=$this->_request->getParam('keyword');
+        if($save_data['keyword']=='')
         {
             $tmp_key=self::_getKey($save_data['title']);
             if (isset($tmp_key['msg']) && $tmp_key['code']=='200')
             {
-                $save_data['key']=$tmp_key['msg'];
+                $save_data['keyword']=$tmp_key['msg'];
             }
         }
-        if($save_data['key'])
+        if($save_data['keyword'])
         {
-            $tmp_data=explode(',',$save_data['key']);
+            $tmp_data=explode(',',$save_data['keyword']);
             $tags=articleModel::addTags($tmp_data);
         }
         //标题图片
@@ -328,7 +329,7 @@ class articleController extends baseController
         else
         {
             //新增
-            $save_data['created']=$save_data['updated'];
+            $save_data['publish_date']=$save_data['created']=$save_data['updated'];
             $aid=articleModel::articleAdd($save_data);
             if ($aid)
             {
@@ -363,4 +364,44 @@ class articleController extends baseController
         json($data,$data['code']);
     }
 
+    /**
+     * 方法名称:artDetailAction
+     * 说明: 查看文章详细
+     * @throws \SmartyException
+     */
+    public function artDetailAction()
+    {
+        $uuid=$this->_request->getParam('ids');
+        $uuid=is_array($uuid)?(isset($uuid[0])?$uuid[0]:''):$uuid;
+        if(baseModel::commCount("ben_article_base",array('id'=>$uuid)))
+        {
+            $this->view->assign('data',articleModel::getArticleDetail($uuid));
+        }
+        else
+        {
+            $this->show_message('参数传递失败！');
+        }
+        $this->view->display('admin/article/article_detail.html');
+    }
+
+    /**
+     * 方法名称:tagListAction
+     * 说明: tags列表
+     * @throws \SmartyException
+     */
+    public function tagListAction()
+    {
+        $search=array();
+        $search['keyword']=$this->_request->getParam('keyword');
+        $data=parent::_list("ben_tags",BASE_PATH.'admin/article/tagList/page/(:num)/',$search,"updated desc",array('tag_name','tag_pinyin'));
+        if(!empty($data))
+        {
+            foreach ($data as $k=>$v)
+            {
+                $data[$k]['count']=baseModel::commCount('ben_tag_article',array('tid'=>$v['id']));
+            }
+        }
+        $this->view->assign('data',$data);
+        $this->view->display('admin/article/tag_list.html');
+    }
 }

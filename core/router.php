@@ -236,6 +236,8 @@ class router{
                                 // Instanitate controller
                                 $controller_class=APP_SPACE.'\\'.self::$module_name.'\\controller\\'.self::$controller_name.'Controller';
                                 $controller = new $controller_class();
+                                //记录路由日志
+                                self::logger();
                                 // Fix multi parameters
                                 if (!method_exists($controller, self::$action_name.'Action')) {
                                     throw new \Exception('找不到控制器文件：【'.$controller.'】对应的方法【'.self::$action_name.'Action】!','404');
@@ -280,6 +282,8 @@ class router{
                                     // Instanitate controller
                                     $controller_class=APP_SPACE.'\\'.self::$module_name.'\\controller\\'.self::$controller_name.'Controller';
                                     $controller = new $controller_class();
+                                    //记录路由日志
+                                    self::logger();
                                     // Fix multi parameters
                                     if (!method_exists($controller, self::$action_name.'Action')) {
                                         throw new \Exception('找不到控制器文件：【'.$controller.'】对应的方法【'.self::$action_name.'Action】!','404');
@@ -332,6 +336,8 @@ class router{
                 $class_file=APP.'/'.self::$module_name.'/controller/'.self::$controller_name.'Controller.php';
                 $controller_class=APP_SPACE.'\\'.self::$module_name.'\\controller\\'.self::$controller_name.'Controller';
                 $action=self::$action_name.'Action';
+                //记录路由日志
+                self::logger();
                 if(is_file($class_file))
                 {
                     include $class_file;
@@ -400,4 +406,26 @@ class router{
 		//echo $url;
 		header("location:$url");
 	}
+
+    /**
+     * 方法名称:logger
+     * 说明: 记录日志
+     * @throws \Exception
+     */
+	private static function logger()
+    {
+        if (APP_LOGS==true)
+        {
+            $data['module']=self::$module_name.'/'.self::$controller_name.'/'.self::$action_name;
+            $data['source']=$_SERVER['REQUEST_URI'];
+            $data['ip']=get_client_ip();
+            $data['created']=$data['updated']=date('Y-m-d H:i:s');
+            $data['ua']=$_SERVER['HTTP_USER_AGENT'];
+            $data['user_id']=S('user_token');
+            $table_name=conf::get('system.logs_table');
+            $obj_name="core\\db\\models\\m\\".$table_name;
+            $db=new $obj_name("m");
+            $db->create($data);
+        }
+    }
 }

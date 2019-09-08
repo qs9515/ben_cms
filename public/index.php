@@ -42,6 +42,8 @@ include CORE_PATH.'/router.php';
 spl_autoload_register("\\core\\router::load");
 //定义系统是否运行于调试模式
 define('DEBUG',true);
+//定义系统是否开启审计日志
+define('APP_LOGS',true);
 //注册错误执行类
 \core\error::register();
 //执行框架

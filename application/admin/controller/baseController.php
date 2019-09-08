@@ -194,6 +194,7 @@ class baseController extends controller
      */
     protected function _getKey($title)
     {
+        $title=str_replace(' ','',strip_tags($title));
         $url = "http://www.baidu.com/s?wd=".$title;
         $header = array (
             'User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36'
@@ -226,6 +227,6 @@ class baseController extends controller
     {
         $title=$this->_request->getParam('title');
         $str=self::_getKey($title);
-        return json(array('msg'=>$str['msg'],'code'=>$str['code']));
+        return json(array('msg'=>$str['msg'],'code'=>(isset($str['code'])?$str['code']:500)));
     }
 }

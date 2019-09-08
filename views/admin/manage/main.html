@@ -16,7 +16,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">后台登陆</span>
-                    <span class="info-box-number">90<small>次</small></span>
+                    <span class="info-box-number"><!--{$login_count}--><small>次</small></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -29,7 +29,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">文章数量</span>
-                    <span class="info-box-number">41,410<small>篇</small></span>
+                    <span class="info-box-number"><!--{$article_count}--><small>篇</small></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -45,8 +45,8 @@
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">前台访问</span>
-                    <span class="info-box-number">760<small>次</small></span>
+                    <span class="info-box-text">整站访问</span>
+                    <span class="info-box-number"><!--{$logs_count}--><small>次</small></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -114,7 +114,7 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" onclick="main_right_load('<!--{$base_path}-->admin/system/login_log/','')" class="btn btn-sm btn-default btn-flat pull-right">>>更多</a>
+                    <a href="javascript:void(0)" onclick="main_right_load('<!--{$base_path}-->admin/system/loginLog/','')" class="btn btn-sm btn-default btn-flat pull-right">>>更多</a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -128,8 +128,8 @@
                 <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Inventory</span>
-                    <span class="info-box-number">5,200</span>
+                    <span class="info-box-text">标签数量</span>
+                    <span class="info-box-number"><!--{$tags_count}--></span>
 
                     <div class="progress">
                         <div class="progress-bar" style="width: 50%"></div>
@@ -145,7 +145,7 @@
                 <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Mentions</span>
+                    <span class="info-box-text">点赞数量</span>
                     <span class="info-box-number">92,050</span>
 
                     <div class="progress">
@@ -162,7 +162,7 @@
                 <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Downloads</span>
+                    <span class="info-box-text">阅读总量</span>
                     <span class="info-box-number">114,381</span>
 
                     <div class="progress">
@@ -179,7 +179,7 @@
                 <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Direct Messages</span>
+                    <span class="info-box-text">文章增量</span>
                     <span class="info-box-number">163,921</span>
 
                     <div class="progress">

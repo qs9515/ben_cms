@@ -18,7 +18,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <!--{foreach $nav as $k=>$v}-->
             <li class="treeview">
-                <a href="###" <!--{if $v.son}--> onclick="main_right_load('<!--{$v.url}-->',this)"<!--{/if}-->>
+                <a href="###" <!--{if $v.url}--> onclick="main_right_load('<!--{$v.url}-->',this)"<!--{/if}-->>
                     <i class="fa fa-<!--{$v.icon}-->"></i>
                     <span><!--{$v.nav_name}--></span>
                     <!--{if $v.son}-->

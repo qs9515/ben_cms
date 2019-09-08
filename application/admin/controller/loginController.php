@@ -40,12 +40,7 @@ class loginController extends controller
         $rsa_status=conf::get('system.login_rsa');
         if($rsa_status)
         {
-            $config = array(
-                "digest_alg"        => "sha512",
-                "private_key_bits"     => 4096,           //字节数  512 1024 2048  4096 等
-                "private_key_type"     => OPENSSL_KEYTYPE_RSA,   //加密类型
-                "config"               => "E:/webhome/php7.3.4/extras/ssl/openssl.cnf",
-            );
+            $config=conf::get('system.rsa_config');
             $public_key_file=rsa::getPublicKey($config,conf::get('system.private_key_dir'));
             $this->view->assign('rsa_public_key',$public_key_file);
         }

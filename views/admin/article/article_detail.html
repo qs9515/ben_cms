@@ -1,0 +1,54 @@
+<!--{include file="../comm/header.html"}-->
+<body class="hold-transition skin-blue">
+<!-- Site wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper full-wrapper">
+    <!-- Main content -->
+    <section class="content full-content">
+        <div class="row">
+            <!-- right column -->
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">文章预览</h3>
+
+                        <div class="box-tools pull-right">
+                            <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
+                            <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="mailbox-read-info">
+                            <h3><!--{$data->title}--></h3>
+                            <h5 style="margin-top: 8px;margin-bottom: 8px;"><i class="fa fa-user"></i> <!--{$data->author}--> <i class="fa fa-puzzle-piece"></i> <!--{$data->sort_name}-->
+                                <br />
+                                <br />
+                                <span class="mailbox-read-time pull-right"><i class="fa fa-tags"></i> <!--{$data->keyword}--> <i class="fa fa-calendar-check-o"></i> <!--{$data->publish_date}--></span></h5>
+                        </div>
+                        <!-- /.mailbox-controls -->
+                        <div class="mailbox-read-message">
+                            <!--{if $data->head_pic}--><img src="<!--{$data->head_pic}-->" alt="<!--{$data->title}-->" class="img-thumbnail"><!--{/if}-->
+                            <p><!--{$data->content}--></p>
+                        </div>
+                        <!-- /.mailbox-read-message -->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /. box -->
+            </div>
+            <!-- /.col -->
+            <!--/.col (right) -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- ./wrapper -->
+<!--{include file="../comm/footer.html"}-->
+</body>
+</html>
+<style>
+    #content{width:100%;max-height:400px;resize:none}
+</style>

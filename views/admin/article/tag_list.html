@@ -2,7 +2,7 @@
 <section class="content-header">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 后台首页</a></li>
-        <li class="active">访问日志列表</li>
+        <li class="active">tag列表</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -11,14 +11,13 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-globe"></i> 访问日志列表
+                <i class="fa fa-globe"></i> tag列表
             </h2>
         </div>
         <!-- /.col -->
     </div>
     <div class="row">
         <div class="col-xs-12">
-
             <button type="button" class="btn btn-danger btn-sm" onclick="layer_status('delete',this)" style="margin-right: 5px;">
                 <i class="fa fa-close"></i> 删除
             </button>
@@ -39,11 +38,10 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" name="chkall" onclick="chk_all(this,'ids')"></th>
-                    <th>用户</th>
-                    <th>IP</th>
-                    <th>来路</th>
-                    <th>访问时间</th>
-                    <th>UA</th>
+                    <th>名称</th>
+                    <th>出现次数</th>
+                    <th>状态</th>
+                    <th>修改时间</th>
                     <th>选项</th>
                 </tr>
                 </thead>
@@ -51,14 +49,12 @@
                 <!--{foreach $data as $k=>$v}-->
                 <tr>
                     <td><input type="checkbox" name="ids[]" value="<!--{$v.id}-->"></td>
-                    <td><!--{if $v.user_id}--><span class="label label-success"><!--{$v.user_id}--></span><!--{else}--><span class="label label-danger">游客</span><!--{/if}--></td>
-                    <td><!--{$v.ip}--></td>
-                    <td><!--{$v.source}--></td>
-                    <td><!--{$v.created}--></td>
-                    <td><!--{$v.ua}--></td>
+                    <td><!--{$v.tag_name}--></td>
+                    <td><!--{$v.count}--></td>
+                    <td><!--{if $v.status=='1'}--><span class="label label-success">正常</span><!--{else}--><span class="label label-danger">禁用</span><!--{/if}--></td>
+                    <td><!--{$v.updated}--></td>
                     <td>
-                        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="查看记录详细" attr-title="查看日志详细信息" attr-params="?ids[]=<!--{$v.id}-->" onclick="layer_detail(this)"><i class="fa fa-ellipsis-h"></i></a>
-                        <a class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="删除记录" attr-title="删除日志信息" attr-params="?ids[]=<!--{$v.id}-->" onclick="layer_status('delete',this)"><i class="fa fa-close"></i></a>
+                        <a class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="删除tag" attr-title="删除【<!--{$v.tag_name}-->】tag" attr-params="?ids[]=<!--{$v.id}-->" onclick="layer_status('delete',this)"><i class="fa fa-close"></i></a>
                     </td>
                 </tr>
                 <!--{/foreach}-->
@@ -72,9 +68,8 @@
 <!-- /.content -->
 <script>
     var COMM_LIST_URI={
-        'search_url':'<!--{$base_path}-->admin/system/eventLog/',
-        'detail_url':'<!--{$base_path}-->admin/system/eventLogDetail/',
-        'delete_url':'<!--{$base_path}-->admin/system/eventLogDelete/',
+        'status_url':'<!--{$base_path}-->admin/article/tagStatus/',
+        'delete_url':'<!--{$base_path}-->admin/article/tagDelete/',
     };
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();

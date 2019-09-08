@@ -34,7 +34,8 @@ class articleModel extends baseModel
     {
         $db=new ben_article_content("m");
         $db->whereAdd("aid='$aid'");
-        return $db->find(true);
+        $db->find(true);
+        return $db;
     }
 
     /**
@@ -81,7 +82,7 @@ class articleModel extends baseModel
             {
                 $v=trim($v);
                 $db=new ben_tags("m");
-                $db->whereAdd("tag_name=？",array($v));
+                $db->whereAdd("tag_name=?",array($v));
                 if($db->count()==0)
                 {
                     $tmp_data=array();
@@ -91,7 +92,8 @@ class articleModel extends baseModel
                     $tmp_data['created']=$tmp_data['updated']=date('Y-m-d H:i:s');
                     $tmp_data['status']=1;
                     $db=new ben_tags("m");
-                    $res[]=$db->create($tmp_data);
+                    $db->create($tmp_data);
+                    $res[]=$db->last_insert_id();
                 }
                 else
                 {
@@ -102,6 +104,7 @@ class articleModel extends baseModel
                 }
             }
         }
+        return $res;
     }
 
     /**
@@ -164,6 +167,13 @@ class articleModel extends baseModel
         parent::commAdd("ben_article_content",$content);
         return $content['aid'];
     }
+
+    /**
+     * 方法名称:articleDelete
+     * 说明: 删除文章
+     * @param $ids
+     * @throws \Exception
+     */
     static function articleDelete($ids)
     {
         $uuids=array();
@@ -180,7 +190,7 @@ class articleModel extends baseModel
         foreach ($uuids as $k=>$v)
         {
             //逐条处理
-            $article=self::commGetDetailById("ben_article_base");
+            $article=self::commGetDetailById("ben_article_base",$v);
             //删除基础表
             $db=new ben_article_base("m");
             $db->whereAdd("id=?",array($v));
@@ -200,13 +210,13 @@ class articleModel extends baseModel
                 $db_a->whereAdd("aid=?",array($v));
                 $db_a->delete();
                 //删除附件表
-                if($article['head_pic']!='')
+                if($article->head_pic!='')
                 {
                     $db_at=new ben_attachment("m");
-                    $db_at->whereAdd("attach_uri=?",array($article['head_pic']));
+                    $db_at->whereAdd("attach_uri=?",array($article->head_pic));
                     if ($db_at->delete())
                     {
-                        @unlink(__SITEROOT.'/public'.$article['head_pic']);
+                        @unlink(__SITEROOT.'/public'.$article->head_pic);
                     }
                 }
                 $succ++;
@@ -218,5 +228,23 @@ class articleModel extends baseModel
         }
         $data['code']='200';
         $data['msg']='删除记录完成，其中成功【'.$succ.'】条，失败【'.$err.'】条！';
+        return $data;
+    }
+
+    /**
+     * 方法名称:getArticleDetail
+     * 说明: 获取文章详细
+     * @param $uuid
+     * @return bool
+     * @throws \Exception
+     */
+    static function getArticleDetail($uuid)
+    {
+        $data=parent::commGetDetailById("ben_article_base",$uuid);
+        $sort=parent::commGetDetailById('ben_sort',$data->sort_id);
+        $content=self::getContentByAid($uuid);
+        $data->sort_name=$sort->sort_name;
+        $data->content=htmlspecialchars_decode($content->content);
+        return $data;
     }
 }
